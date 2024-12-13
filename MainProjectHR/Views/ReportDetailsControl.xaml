@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MainProjectHR.Views.ReportDetailsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Height="400" Width="600">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Детали отчёта" FontSize="24" FontWeight="Bold" Margin="0 0 0 20" />
+
+        <!-- Контент -->
+        <StackPanel Grid.Row="1" Margin="0 10 0 0">
+            <TextBlock Text="ID:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding ID}" Margin="0 0 0 10"/>
+
+            <TextBlock Text="Название отчёта:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Title}" Margin="0 0 0 10"/>
+
+            <TextBlock Text="Дата создания:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding CreationDate}" Margin="0 0 0 10"/>
+
+            <TextBlock Text="Описание:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Description}" Margin="0 0 0 10"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
