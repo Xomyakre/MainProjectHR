@@ -28,7 +28,36 @@ namespace MainProjectHR
             LoadEmployees();
         }
 
-        
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (WindowState == WindowState.Maximized)
+                    WindowState = WindowState.Normal;
+                else
+                    WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                DragMove();
+            }
+        }
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal
+                : WindowState.Maximized;
+        }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -65,12 +94,6 @@ namespace MainProjectHR
                         Email = e.Email
                     })
                     .ToList();
-
-                // Устанавливаем цвет для каждого сотрудника
-                
-
-                // Привязываем данные к DataGrid
-                //membersDataGrid.ItemsSource = new ObservableCollection<Employee>(employees);
             }
         }
 

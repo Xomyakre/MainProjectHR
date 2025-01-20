@@ -6,86 +6,134 @@
         xmlns:local="clr-namespace:MainProjectHR"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Login" Height="570" Width="380"
-        Background="{x:Null}"
+        Title="Login" Height="580" Width="390"
+        Background="Transparent"
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
 
-    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" 
-                         Margin="5,11,25,35" Padding="20" Width="330">
-        <materialDesign:DialogHost CloseOnClickAway="True">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Height="504">
+    <Border CornerRadius="15" Margin="15">
+        <Border.Background>
+            <SolidColorBrush Color="White" Opacity="0.95"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.2"/>
+        </Border.Effect>
 
-                <!-- Logo Image -->
-                <Image Margin="0 10 0 0" Source="/images/logo.png" Height="100" HorizontalAlignment="Center" Cursor="" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <!-- Welcome Text -->
-                <TextBlock Margin="0 20 0 5" 
-                           HorizontalAlignment="Center" 
-                           FontSize="24" 
-                           FontWeight="Bold" 
-                           Text="Welcome Back!" />
+            <!-- Верхняя панель с кнопками -->
+            <Border Grid.Row="0" 
+                    Background="#FFFFFF" 
+                    Opacity="0.8" 
+                    Height="40"
+                    CornerRadius="15,15,0,0">
+                <StackPanel Orientation="Horizontal" 
+                          Margin="10,0,0,0" 
+                          VerticalAlignment="Center">
+                    <!-- Кнопки управления окном -->
+                </StackPanel>
+            </Border>
 
-                <TextBlock FontSize="14" 
-                           FontWeight="SemiBold" 
-                           HorizontalAlignment="Center" 
-                           Text="Log in to your existing account" />
+            <!-- Основное содержимое -->
+            <StackPanel x:Name="loginForm" 
+                      Grid.Row="1" 
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" Height="490">
 
-                <!-- Username Input -->
-                <TextBox Margin="0 45 0 0" 
-                         x:Name="txtUsername" 
-                         Width="280" 
-                         FontSize="16" 
-                         materialDesign:HintAssist.Hint="Enter Username" 
-                         BorderThickness="1" 
-                         BorderBrush="{DynamicResource MaterialDesignDivider}" 
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                <!-- Логотип -->
+                <Border x:Name="logo" 
+                        Width="80" 
+                        Height="80" 
+                        CornerRadius="40"
+                        Background="#2196F3"
+                        Margin="0,0,0,10">
+                    <Image Source="/Images/logo.png"
+                           Height="60"
+                           Width="60"/>
+                </Border>
 
-                <!-- Password Input -->
-                <PasswordBox Margin="0 15 0 0" 
-                             x:Name="txtPassword" 
-                             Width="280" 
-                             FontSize="16" 
-                             materialDesign:HintAssist.Hint="Enter Password" 
-                             BorderThickness="1" 
-                             BorderBrush="{DynamicResource MaterialDesignDivider}" 
-                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                <TextBlock Text="HI-Agent"
+                          FontSize="24"
+                          FontWeight="SemiBold"
+                          Foreground="#5C6BC0"
+                          Margin="0,5,0,5"
+                          HorizontalAlignment="Center"/>
 
-                <!-- Error TextBlock for login failure -->
-                <TextBlock x:Name="ErrorTextBlock" 
-                           Foreground="Red" 
-                           FontSize="14" 
-                           HorizontalAlignment="Center" 
-                           Margin="0,10,0,0" 
-                           Visibility="Collapsed" />
+                <TextBlock Text="Система управления персоналом"
+                          FontSize="14"
+                          Foreground="#666666"
+                          Margin="0,0,0,50"
+                          HorizontalAlignment="Center"/>
 
-                <!-- Log In Button -->
-                <Button Margin="0 15 0 0" 
-                    x:Name="loginBtn" 
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}" 
-                    Height="40" 
-                    Width="280" 
-                    materialDesign:ButtonAssist.CornerRadius="8" 
-                    FontSize="16" 
-                    Content="LOG IN" 
-                    Cursor="Hand" 
-                    Click="loginBtn_Click" />
+                <!-- Поля ввода -->
+                <Grid Width="280" Margin="0,0,0,20" Height="45">
+                    <materialDesign:PackIcon Kind="Account" 
+                                           VerticalAlignment="Bottom" 
+                                           Margin="0,0,0,10"
+                                           Foreground="#5C6BC0"/>
+                    <TextBox x:Name="txtUsername"
+                             Margin="30,0,0,0"
+                             FontSize="14" 
+                             materialDesign:HintAssist.Hint="Введите логин"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:TextFieldAssist.UnderlineBrush="#2196F3"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                </Grid>
 
-                <!-- Create Account Button -->
-                <Button Margin="0 15 0 0" 
-                        x:Name="signupBtn" 
-                        Style="{StaticResource MaterialDesignFlatButton}" 
-                        Height="40" 
-                        Width="280" 
-                        materialDesign:ButtonAssist.CornerRadius="8" 
-                        FontSize="16" 
-                        Content="Create Account"
-                        Click="signupBtn_Click" />
-                
-                
+                <Grid Width="280" Margin="0,0,0,30">
+                    <materialDesign:PackIcon Kind="Lock" 
+                                           VerticalAlignment="Bottom" 
+                                           Margin="0,0,0,10"
+                                           Foreground="#5C6BC0"/>
+                    <PasswordBox x:Name="txtPassword"
+                                Margin="30,0,0,0"
+                                FontSize="14" 
+                                materialDesign:HintAssist.Hint="Введите пароль"
+                                Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
+                                Height="45"
+                                materialDesign:TextFieldAssist.UnderlineBrush="#2196F3"
+                                materialDesign:TextFieldAssist.HasClearButton="True"/>
+                </Grid>
 
+                <TextBlock x:Name="ErrorTextBlock"
+                          Foreground="#FF5252"
+                          Margin="0,0,0,20"
+                          TextAlignment="Center"
+                          Visibility="Collapsed"/>
+
+                <!-- Кнопки -->
+                <Button x:Name="loginBtn"
+                        Content="Sign in"
+                        Width="280"
+                        Height="45"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Background="#5C6BC0"
+                        BorderBrush="#5C6BC0"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Margin="0,0,0,15"
+                        Click="loginBtn_Click"/>
+
+                <Button x:Name="signupBtn"
+                        Content="Sign up"
+                        Width="280"
+                        Height="45"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Background="#E3F2FD"
+                        BorderBrush="#E3F2FD"
+                        Foreground="#5C6BC0"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="signupBtn_Click"/>
             </StackPanel>
-        </materialDesign:DialogHost>
-    </materialDesign:Card>
+        </Grid>
+    </Border>
 </Window>

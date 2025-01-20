@@ -15,11 +15,24 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        
-        
 
-        <!-- Data Templates -->
-        
+
+
+        <Style x:Key="MacWindowButton" TargetType="Button">
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="6" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Window.DataContext>
@@ -37,11 +50,20 @@
 
             </Grid.ColumnDefinitions>
 
+            <Grid Height="28" VerticalAlignment="Top" Background="#CCEFF2F7" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Margin="19,1,105,0" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="1118,4,0,4">
+                    <Button Style="{StaticResource MacWindowButton}" Background="#FEBC2E" Click="MinimizeButton_Click"/>
+                    <Button Style="{StaticResource MacWindowButton}" Background="#FF5F57" Click="CloseButton_Click"/>
+                    
+                </StackPanel>
+
+                <TextBlock Text="Manager studio" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="#666666" FontSize="13"/>
+            </Grid>
             <Image Source="/Images/logo.png"
        HorizontalAlignment="Right"
        Height="58"
        Width="50" VerticalAlignment="Top" Margin="0,10,140,0"/>
-
             <TextBlock Text="HI-Agent" Foreground="Black" FontSize="22" FontWeight="SemiBold" 
                        DockPanel.Dock="Top" Margin="65,20,840,595" Grid.ColumnSpan="2" />
 
@@ -129,7 +151,7 @@
 
             </Grid>
 
-            <ContentControl Content="{Binding CurrentView}" Grid.Column="1" Margin="20,20,90,20"/>
+            <ContentControl Content="{Binding CurrentView}" Grid.Column="1" Margin="20,30,90,20"/>
 
 
         </Grid>

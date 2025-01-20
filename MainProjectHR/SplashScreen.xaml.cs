@@ -5,6 +5,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using MainProjectHR.DataBase;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Threading.Tasks;
 
 namespace MainProjectHR
 {
@@ -18,6 +21,24 @@ namespace MainProjectHR
         public SplashScreen()
         {
             InitializeComponent();
+            StartLogoRotationWithDelay();
+        }
+
+        private async void StartLogoRotationWithDelay()
+        {
+            
+            await Task.Delay(100);
+            
+            // Создаем и запускаем анимацию вращения
+            var rotation = new DoubleAnimation
+            {
+                From = 0,
+                To = 360,
+                Duration = TimeSpan.FromSeconds(2),
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+
+            LogoRotation.BeginAnimation(RotateTransform.AngleProperty, rotation);
         }
 
         public void StartAuthentication(string username, string password)
@@ -25,23 +46,23 @@ namespace MainProjectHR
             _username = username;
             _password = password;
 
-            BackgroundWorker worker = new BackgroundWorker
-            {
-                WorkerReportsProgress = true
-            };
-
+            var worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    AuthenticationCompleted?.Invoke((bool)e.Result);
+                });
+            };
             worker.RunWorkerAsync();
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             bool isAuthenticated = AuthenticateUser(_username, _password);
-            Thread.Sleep(2000); // Имитируем время загрузки
-
-            // Вызываем событие завершения аутентификации с результатом
-            AuthenticationCompleted?.Invoke(isAuthenticated);
+            Thread.Sleep(1000);
+            e.Result = isAuthenticated;
         }
 
         private bool AuthenticateUser(string username, string password)
@@ -52,11 +73,6 @@ namespace MainProjectHR
                     .FirstOrDefault(u => u.login == username && u.password_hash == password);
                 return user != null;
             }
-        }
-
-        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar.Value = e.ProgressPercentage;
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

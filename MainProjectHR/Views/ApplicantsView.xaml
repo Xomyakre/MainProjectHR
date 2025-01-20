@@ -12,7 +12,7 @@
         <!-- Декоративный фон -->
         <Ellipse Fill="#3f51b5" Opacity="0.1" Width="400" Height="400" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-150,-150"/>
         <Ellipse Fill="#3f51b5" Opacity="0.08" Width="250" Height="250" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="50,50"/>
-        <Rectangle Fill="#3f51b5" Opacity="0.05" Height="150" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="#3f51b5" Opacity="0.05" Height="150" VerticalAlignment="Bottom"  />
 
         <!-- Основной контент -->
         <Grid Margin="30 20 20 20">
@@ -26,7 +26,8 @@
                 <RowDefinition Height="*"/>
                 <!-- Таблица -->
                 <RowDefinition Height="Auto"/>
-                <!-- Кнопка -->
+                <!-- Подсказка -->
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Заголовок -->
@@ -34,8 +35,7 @@
 
             <!-- Фильтр -->
             <Grid Width="300" HorizontalAlignment="Left" Grid.Row="1">
-                <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#B0B9C6" IsHitTestVisible="False"
-                          />
+                <TextBlock Margin="15 0" VerticalAlignment="Center" Foreground="#B0B9C6" IsHitTestVisible="False"/>
                 <ComboBox x:Name="RoleFilterComboBox" Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="RoleFilterComboBox_SelectionChanged"/>
             </Grid>
 
@@ -44,20 +44,17 @@
 
             <!-- Таблица с кандидатами -->
             <DataGrid x:Name="CandidatesDataGrid" 
-          Grid.Row="3" 
-          AutoGenerateColumns="False" 
-          IsReadOnly="True" 
-          RowHeight="40" 
-          CanUserAddRows="False"
-          Style="{DynamicResource DataGridStyle1}" 
-          RowStyle="{DynamicResource DataGridRowStyle1}" 
-          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-          CellStyle="{DynamicResource DataGridCellStyle1}">
+                      Grid.Row="3" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      RowHeight="40" 
+                      CanUserAddRows="False"
+                      MouseDoubleClick="CandidatesDataGrid_MouseDoubleClick"
+                      Style="{DynamicResource DataGridStyle1}" 
+                      RowStyle="{DynamicResource DataGridRowStyle1}" 
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                      CellStyle="{DynamicResource DataGridCellStyle1}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn 
-                                Binding="{Binding IsSelected, Mode=TwoWay}"
-                        IsReadOnly="False"
-                                Width="50" IsThreeState="False"/>
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto"/>
                     <DataGridTemplateColumn Header="Кандидат" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -74,18 +71,29 @@
                     <DataGridTextColumn Header="Должность" Binding="{Binding SpecialtyName}" Width="*"/>
                     <DataGridTextColumn Header="Навыки" Binding="{Binding Skills}" Width="*"/>
                     <DataGridTextColumn Header="Опыт (лет)" Binding="{Binding Status}" Width="Auto"/>
+                    <DataGridTemplateColumn Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <materialDesign:PackIcon Kind="Alert"
+                                                       Width="20"
+                                                       Height="20"
+                                                       Foreground="{Binding StatusColor}">
+                                    <ToolTipService.ToolTip>
+                                        <TextBlock Text="{Binding StatusMessage}"/>
+                                    </ToolTipService.ToolTip>
+                                </materialDesign:PackIcon>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
-
-            <!-- Кнопка "Узнать подробности" -->
-            <!--<Button x:Name="DetailsButton" 
-                    Grid.Row="4" 
-                    Content="Узнать подробности" 
-                    Style="{StaticResource MaterialDesignRaisedButton}"
-                    HorizontalAlignment="Right" 
-                    Margin="0 20 0 0" 
-                    Click="DetailsButton_Click"/>-->
+            <!-- Информационное сообщение -->
+            <TextBlock Grid.Row="5" Text="Дважды нажмите на строку, чтобы открыть подробную информацию о кандидате." 
+                       FontSize="14" 
+                       Foreground="#757575" 
+                       HorizontalAlignment="Center" 
+                       Margin="10,10,10,0"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,6 +1,7 @@
 ﻿using MainProjectHR.DataBase;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -60,13 +61,84 @@ namespace MainProjectHR.Views
             _employeesViewSource?.View.Refresh();
         }
 
-        public class Employee
+        
+
+        private void DeleteEmployee(Employee employee)
         {
-            public int ID { get; set; }
-            public string FullName { get; set; }
-            public string Position { get; set; }
-            public string Phone { get; set; }
-            public string Email { get; set; }
+            if (employee == null) return;
+
+            using (_dbContext = new DataBaseConnect())
+            {
+                var dbEmployee = _dbContext.Employees.FirstOrDefault(e => e.ID == employee.ID);
+                if (dbEmployee != null)
+                {
+                    _dbContext.Employees.Remove(dbEmployee);
+                    _dbContext.SaveChanges();
+                }
+            }
+
+            // Удаляем пользователя из коллекции для обновления DataGrid
+            var collection = (ObservableCollection<Employee>)_employeesViewSource.Source;
+            collection.Remove(employee);
         }
+
+        private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            var confirmationDialog = new DeleteConfirmationWindow();
+            confirmationDialog.ShowDialog();
+
+            if (confirmationDialog.Result)
+            {
+                if (sender is Button button && button.DataContext is Employee employee)
+                {
+                    DeleteEmployee(employee);
+                }
+            }
+        }
+
+        private void EditEmployee(Employee employee)
+        {
+            if (employee == null) return;
+
+            var editWindow = new EditEmployeeWindow(employee);
+            if (editWindow.ShowDialog() == true)
+            {
+                using (_dbContext = new DataBaseConnect())
+                {
+                    var dbEmployee = _dbContext.Employees.FirstOrDefault(e => e.ID == employee.ID);
+                    if (dbEmployee != null)
+                    {
+                        dbEmployee.FullName = employee.FullName;
+                        dbEmployee.Position = employee.Position;
+                        dbEmployee.Email = employee.Email;
+                        dbEmployee.Phone = employee.Phone;
+                        dbEmployee.Salary = 50000;
+                        _dbContext.SaveChanges();
+                    }
+                }
+
+                // Обновляем источник данных
+                _employeesViewSource.View.Refresh();
+            }
+        }
+
+        private void EditEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Employee employee)
+            {
+                EditEmployee(employee);
+            }
+        }
+
+        private void DetailsEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Employee employee)
+            {
+                var detailsWindow = new DetailsEmployeeWindow(employee);
+                detailsWindow.ShowDialog();
+            }
+        }
+
     }
+
 }

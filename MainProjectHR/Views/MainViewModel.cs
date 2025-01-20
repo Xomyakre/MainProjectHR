@@ -17,6 +17,17 @@ namespace MainProjectHR.Views
         private object _currentView;
         public ObservableCollection<ProjectCard> ProjectCards { get; set; }
 
+        private JobClient _currentCandidate;
+        public JobClient CurrentCandidate
+        {
+            get => _currentCandidate;
+            set
+            {
+                _currentCandidate = value;
+                OnPropertyChanged();
+            }
+        }
+
         public object CurrentView
         {
             get => _currentView;
@@ -72,16 +83,23 @@ namespace MainProjectHR.Views
 
         private void SwitchToReportDetails(object parameter)
         {
-            if (parameter is Report report)
+            if (parameter is JobClient candidate)
             {
-                // Переход к деталям отчёта
-                CurrentView = new ReportDetailsControl(report);
-            }
-            else
-            {
-                MessageBox.Show("Неверный формат данных для команды.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                CurrentCandidate = candidate;
+                CurrentView = new Views.ReportDetailsControl(candidate);
             }
         }
+
+        public void NavigateToReportDetails(JobClient candidate)
+        {
+            CurrentView = new ReportDetailsControl(candidate);
+        }
+
+        public void NavigateToApplicantsView()
+        {
+            CurrentView = new ApplicantsView();
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

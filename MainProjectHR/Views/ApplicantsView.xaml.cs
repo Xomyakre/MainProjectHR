@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MainProjectHR.Views
 {
@@ -44,28 +46,7 @@ namespace MainProjectHR.Views
 
 
 
-        //private void DetailsButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // Ищем кандидата, у которого установлен CheckBox
-        //    var selectedCandidate = _dbContext.JobClients.FirstOrDefault(jc => jc.IsSelected);
 
-        //    if (selectedCandidate != null)
-        //    {
-        //        if (DataContext is MainViewModel viewModel)
-        //        {
-        //            // Передаём выбранного кандидата в команду переключения
-        //            viewModel.SwitchToCandidateDetailsCommand.Execute(selectedCandidate);
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Не удалось переключить вид. Проверьте DataContext.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Выберите кандидата с помощью чекбокса.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //    }
-        //}
 
 
         private void LoadCandidates(string specialty = null)
@@ -82,13 +63,19 @@ namespace MainProjectHR.Views
                 ID = jc.ID,
                 FullName = jc.FullName,
                 SpecialtyName = jc.SpecialtyName,
-                Skills = jc.skills,
-                Status = jc.status,
-                IsSelected = false // Сбрасываем выбор
+                Skills = jc.Skills,
+                Status = jc.Status,
+                Phone = jc.Phone, 
+                Email = jc.Email, 
+                IsSelected = false,
+                Images = jc.Images,
+                DepartmentId = jc.DepartmentId,
+                RoleId = jc.RoleId
             }).ToList();
 
             CandidatesDataGrid.ItemsSource = candidates;
         }
+
 
 
 
@@ -97,17 +84,63 @@ namespace MainProjectHR.Views
             string selectedSpecialty = RoleFilterComboBox.SelectedItem as string;
             LoadCandidates(selectedSpecialty);
         }
+
+        private void CandidatesDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (CandidatesDataGrid.SelectedItem is JobClient selectedCandidate)
+            {
+                // Находим главное окно и его DataContext
+                var mainWindow = Application.Current.Windows.OfType<HrManager>().FirstOrDefault();
+                if (mainWindow?.DataContext is MainViewModel mainViewModel)
+                {
+                    mainViewModel.CurrentCandidate = selectedCandidate;
+                    mainViewModel.SwitchToReportDetailsCommand.Execute(selectedCandidate);
+                }
+            }
+        }
+
     }
 
-    public class JobClient
+    public class JobClient : INotifyPropertyChanged
     {
+        private int _status;
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public int ID { get; set; }
         public string FullName { get; set; }
         public string SpecialtyName { get; set; }
         public string Skills { get; set; }
-        public int Status { get; set; }
-        public bool IsSelected { get; set; } // Для CheckBox
+        public int Status 
+        { 
+            get => _status;
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(StatusColor));
+                    OnPropertyChanged(nameof(StatusMessage));
+                }
+            }
+        }
+        public bool IsSelected { get; set; }
+        public byte[] Images { get; set; }
+        public string Phone { get; set; } 
+        public string Email { get; set; }
+        public int DepartmentId { get; set; }
+        public int RoleId { get; set; }
+
+        public string StatusColor => Status >= 5 ? "#4CAF50" : "#F44336";
+        public string StatusMessage => Status >= 5 ? "Это лучший кандидат" : "Этот кандидат нам не подходит";
     }
+
 
 
 }

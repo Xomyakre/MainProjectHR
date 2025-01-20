@@ -19,32 +19,28 @@ namespace MainProjectHR
             string username = txtUsername.Text;
             string password = txtPassword.Password;
 
-            // Скрываем MainWindow и запускаем SplashScreen
+            // Скрываем текущее окно
             this.Hide();
-            SplashScreen splashScreen = new SplashScreen();
-
-            // Подписываемся на событие завершения проверки
+            
+            var splashScreen = new SplashScreen();
             splashScreen.AuthenticationCompleted += (isAuthenticated) =>
             {
-                // Используем Dispatcher для выполнения кода в UI-потоке
                 Dispatcher.Invoke(() =>
                 {
                     splashScreen.Close();
 
                     if (isAuthenticated)
                     {
-                        // Открываем HrManager при успешной авторизации
-                        var HrManager = new HrManager();
-                        HrManager.Show();
+                        var hrManager = new HrManager();
+                        hrManager.Show();
+                        this.Close(); // Закрываем окно авторизации при успешном входе
                     }
                     else
                     {
-                        // Показываем MainWindow снова при ошибке авторизации
                         this.Show();
-
-                        // Показываем ошибку авторизации в TextBlock
                         ErrorTextBlock.Visibility = Visibility.Visible;
                         ErrorTextBlock.Text = "Неверный логин или пароль.";
+                        txtPassword.Password = string.Empty; // Очищаем поле пароля
                     }
                 });
             };
@@ -61,9 +57,8 @@ namespace MainProjectHR
 
         private void signupBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Создаем и показываем окно регистрации
             CreateAccount createAccountWindow = new CreateAccount();
-            createAccountWindow.ShowDialog();  // Показываем окно как модальное
+            createAccountWindow.ShowDialog();
         }
     }
 }

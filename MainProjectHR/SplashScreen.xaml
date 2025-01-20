@@ -6,60 +6,89 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="SplashScreen"
-        Height="450"
-        Width="750"
+        Height="400"
+        Width="600"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
-        Background="{x:Null}">
+        Background="Transparent">
 
-    <materialDesign:Card UniformCornerRadius="15"
-                         Background="{DynamicResource MaterialDesignPaper}"
-                         
-                         Margin="25">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350"/>
-                <ColumnDefinition Width="400"/>
-            </Grid.ColumnDefinitions>
+    <Border CornerRadius="15" Margin="15">
+        <Border.Background>
+            <SolidColorBrush Color="White" Opacity="0.95"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.2"/>
+        </Border.Effect>
 
-            <!-- Left Column StackPanel -->
-            <StackPanel Grid.Column="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Margin="50 0 0 0">
-                <WrapPanel>
-                    <Image Source="/Images/logo.png"
-                           HorizontalAlignment="Left"
-                           Height="58"
-                           Width="50"/>
+        <Grid x:Name="MainContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Верхняя панель -->
+            <Border Grid.Row="0" 
+                    Background="#FFFFFF" 
+                    Opacity="0.8" 
+                    Height="40"
+                    CornerRadius="15,15,0,0"/>
+
+            <!-- Основной контент -->
+            <Grid Grid.Row="1" Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Логотип и название -->
+                <StackPanel Grid.Row="0" 
+                          HorizontalAlignment="Center"
+                          Margin="0,20">
+                    <Border Width="80" 
+                            Height="80" 
+                            CornerRadius="40"
+                            Background="#2196F3">
+                        <Image Source="/Images/logo.png"
+                               RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform x:Name="LogoRotation"/>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Border>
                     <TextBlock Text="HI-Agent"
-                               FontSize="28"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="15 0 0 0"/>
-                </WrapPanel>
-                <TextBlock Text="Loading Resources.."
-                           FontSize="17"
-                           FontWeight="SemiBold"
-                           HorizontalAlignment="Left"
-                           Margin="0 30 0 15"/>
-                <ProgressBar Name="progressBar"
-                             Value="0"
-                             Height="5"
-                             Width="280"
-                             IsIndeterminate="True"/>
-            </StackPanel>
+                             FontSize="28"
+                             FontWeight="SemiBold"
+                             Foreground="#2196F3"
+                             Margin="0,20,0,0"
+                             HorizontalAlignment="Center"/>
+                </StackPanel>
 
-            <!-- Right Column StackPanel -->
-            <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="320"
-                        Width="320" Margin="25,70,0,0">
-                <Image Source="/Images/Load.png"/>
-            </StackPanel>
+                <!-- Прогресс загрузки -->
+                <StackPanel Grid.Row="1" 
+                          VerticalAlignment="Center"
+                          Margin="0,20">
+                    <TextBlock Text="Загрузка..."
+                             FontSize="16"
+                             Foreground="#666666"
+                             HorizontalAlignment="Center"
+                             Margin="0,0,0,15"/>
+                    <ProgressBar Height="4"
+                               Width="250"
+                               IsIndeterminate="True"
+                               Background="#E0E0E0"
+                               Foreground="#2196F3"/>
+                </StackPanel>
+
+                <!-- Нижняя информация -->
+                <TextBlock Grid.Row="2" 
+                         Text="© 2024 HI-Agent. Все права защищены"
+                         FontSize="12"
+                         Foreground="#999999"
+                         HorizontalAlignment="Center"
+                         Margin="0,20"/>
+            </Grid>
         </Grid>
-    </materialDesign:Card>
+    </Border>
 </Window>
