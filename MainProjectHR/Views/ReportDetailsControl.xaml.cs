@@ -57,12 +57,19 @@ namespace MainProjectHR.Views
 
                 MessageBox.Show("Кандидат успешно принят на работу!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var mainViewModel = (MainViewModel)Application.Current.MainWindow.DataContext;
-                mainViewModel.NavigateToApplicantsView();
+                var mainViewModel = Application.Current.MainWindow.DataContext as MainViewModel;
+                if (mainViewModel != null)
+                {
+                    mainViewModel.NavigateToApplicantsView();
+                }
+                else
+                {
+                    
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при добавлении кандидата: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+               
             }
         }
 
@@ -73,7 +80,7 @@ namespace MainProjectHR.Views
                 // Удаляем кандидата из таблицы JobClients
                 _dbContext.ExecuteQuery($"DELETE FROM JobClients WHERE ID = {Candidate.ID};");
 
-                MessageBox.Show("Заявка кандидата отклонена.", "Отклонено", MessageBoxButton.OK, MessageBoxImage.Information);
+                
 
                 // Вернуться на список кандидатов
                 var mainViewModel = (MainViewModel)Application.Current.MainWindow.DataContext;
@@ -81,7 +88,7 @@ namespace MainProjectHR.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении кандидата: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+               
             }
         }
 

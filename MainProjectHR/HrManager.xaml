@@ -94,7 +94,7 @@
 
                         <!--Menu Titles-->
                         <TextBlock Text="СашкаДракон" Foreground="White" FontSize="22" FontWeight="SemiBold" DockPanel.Dock="Top" Margin="5 25 0 10" TextAlignment="Center"/>
-                        <TextBlock Text="Admin, Обаюнда" Foreground="#D0BFFF" FontSize="14" FontWeight="SemiBold" DockPanel.Dock="Top" TextAlignment="Center"/>
+                        <TextBlock Text="Admin, HR специалист" Foreground="#D0BFFF" FontSize="14" FontWeight="SemiBold" DockPanel.Dock="Top" TextAlignment="Center"/>
 
                         <!--Menu Seprator-->
                         <Separator Margin="25" Background="#7E5FDC" DockPanel.Dock="Top" Height="0.8"/>
@@ -104,14 +104,14 @@
                             <Button Style="{StaticResource menuButton}" Command="{Binding SwitchToDashboardCommand}" Click="Button_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="HomeVariant" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Dashboard"/>
+                                    <TextBlock Text="Главная страница"/>
                                 </StackPanel>
                             </Button>
 
                             <Button Style="{StaticResource menuButton}" Command="{Binding SwitchToApplicantsCommand}" Click="Button_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="CalendarClock" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Applicants"/>
+                                    <TextBlock Text="Кандидаты"/>
                                 </StackPanel>
                             </Button>
 
@@ -119,21 +119,21 @@
                                     >
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Employee"/>
+                                    <TextBlock Text="Сотрудники"/>
                                 </StackPanel>
                             </Button>
 
                             <Button Style="{StaticResource menuButton}" Command="{Binding SwitchToProjectCommand}" Click="Button_Click" >
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="CashMultiple" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Reports"/>
+                                    <TextBlock Text="Отчеты"/>
                                 </StackPanel>
                             </Button>
 
                             <Button Style="{StaticResource menuButton}" Command="{Binding SwitchToMessagesCommand}" Click="Button_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="ForumOutline" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="About Us"/>
+                                    <TextBlock Text="О нас"/>
                                 </StackPanel>
                             </Button>
 

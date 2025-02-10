@@ -98,7 +98,7 @@
                                     <TextBlock Text="📧 Email: contact@hi-agent.com" FontSize="14" Foreground="#646E78" Margin="5 0"/>
                                     <TextBlock Text="📞 Телефон: +1 (800) 123-4567" FontSize="14" Foreground="#646E78" Margin="5 0"/>
                                     <TextBlock Text="🌐 Веб-сайт: www.hi-agent.com" FontSize="14" Foreground="#646E78" Margin="5 0"/>
-                                    <TextBlock Text="📍 Адрес: 123 Hi-Tech Street, Силиконовая долина, США" FontSize="14" Foreground="#646E78" Margin="5 0"/>
+                                    <TextBlock Text="📍 Адрес: Загребский бултвар 23к1, Санкт-Петербург, Россия" FontSize="14" Foreground="#646E78" Margin="5 0"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
